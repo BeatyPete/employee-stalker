@@ -29,8 +29,10 @@ module.exports = templateData => {
 
 const generateEmployees = employeeData => {
     return employeeData.map(employee => {
+        var link = employee.other;
         if (employee.role === 'Engineer') {
             var extra = 'Github'
+            link = `<a href='https://github.com/${employee.other}'>${employee.other}</a>`
         } else if (employee.role === 'Intern') {
             var extra = 'School'
         } else {
@@ -48,7 +50,7 @@ const generateEmployees = employeeData => {
                         <li class="list-group-item">Email: 
                             <a href = "mailto: ${employee.email}">${employee.email}</a>
                         </li>
-                        <li class="list-group-item">${extra}: ${employee.other}</li>
+                        <li class="list-group-item">${extra}: ${link}</li>
                     </ul>
                 </div>
             </div>
