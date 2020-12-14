@@ -5,10 +5,12 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+const teamMembers = [];
+
 const managerQuestions = [
     {
         type: 'input',
-        name: 'managerName',
+        name: 'name',
         message: `What is the team manager's name?`,
         pvalidate: nameInput => {
           if (nameInput) {
@@ -21,7 +23,7 @@ const managerQuestions = [
     },
     {
         type: 'input',
-        name: 'managerId',
+        name: 'id',
         message: `Enter the manager's employee id.`,
         pvalidate: idInput => {
           if (idInput) {
@@ -34,7 +36,7 @@ const managerQuestions = [
     },
     {
         type: 'input',
-        name: 'managerEmail',
+        name: 'email',
         message: `Enter the manager's email.`,
         pvalidate: emailInput => {
           if (emailInput.includes('@')) {
@@ -47,7 +49,7 @@ const managerQuestions = [
     },
     {
         type: 'input',
-        name: 'managerPhone',
+        name: 'phone',
         message: `Enter the manager's phone number.`,
         pvalidate: phoneInput => {
           if (phoneInput) {
@@ -67,13 +69,13 @@ const promptManager = () => {
   ==================
   `);
     return inquirer.prompt(managerQuestions)
+        .then(managerData => {
+            console.log(managerData)
+            teamMembers.push(new Manager(managerData.name, managerData.id, managerData.email, managerData.phone));
+        });
 };
-const promptAddMember = managerData => {
-    console.log(managerData)
-    if (!managerData.members) {
-        managerData.members = [];
-    }
-    inquirer.prompt([
+const promptAddMember = () => {
+    return inquirer.prompt([
         {
             type: 'list',
             name: 'add',
@@ -83,20 +85,19 @@ const promptAddMember = managerData => {
     ])
     .then(choice => {
         if (choice.add === 'Engineer') {
-            addMember(choice.add)
+            return addMember(choice.add)
             .then(employeeData => {
-                console.log(employeeData)
-                managerData.members.push(employeeData)
-                console.log(managerData)
+                teamMembers.push(new Engineer(employeeData.name, employeeData.id, employeeData.email, employeeData.github))
+                return promptAddMember();
             })
         } else if (choice.add === 'Intern') {
-            addMember(choice.add)
+            return addMember(choice.add)
             .then(employeeData => {
-                console.log(employeeData)
-                managerData.members.push(employeeData)
+                teamMembers.push(new Intern(employeeData.name, employeeData.id, employeeData.email, employeeData.github))
+                return promptAddMember();
             })
         } else {
-            console.log('done')
+            return;
         }
     })
 }; 
@@ -181,6 +182,7 @@ const addMember = prompt => {
 
 promptManager()
     .then(promptAddMember)
-    /* .then(answers => {
-        console.log(answers);
-    }) */
+    .then( () => {
+        console.log('finnished!!!');
+        console.log(teamMembers)
+    })
