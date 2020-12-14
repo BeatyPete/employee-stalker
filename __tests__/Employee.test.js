@@ -7,7 +7,7 @@ test('creates an employee', () => {
     expect(employee.name).toBe('Dave');
     expect(employee.id).toEqual(19);
     expect(employee.email).toBe('dave@fakemail.com');
-    expect(employee.role).toBe('employee')
+    expect(employee.role).toBe('Employee')
 });
 
 test('gets employees name', () => {
@@ -28,5 +28,5 @@ test('gets employees email', () => {
 test('gets employees role', () => {
     const employee = new Employee('Dave', 19, 'dave@fakemail.com');
 
-    expect(employee.getRole()).toBe('employee')
+    expect(employee.getRole()).toBe('Employee')
 });

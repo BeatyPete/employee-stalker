@@ -6,8 +6,8 @@ test('creates an Intern', () => {
     expect(intern.name).toBe('Dave');
     expect(intern.id).toEqual(19);
     expect(intern.email).toBe('dave@fakemail.com');
-    expect(intern.school).toBe('MTSU');
-    expect(intern.role).toBe('intern')
+    expect(intern.other).toBe('MTSU');
+    expect(intern.role).toBe('Intern')
 });
 
 test('gets interns school', () => {

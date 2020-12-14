@@ -6,8 +6,8 @@ test('creates an Engineer', () => {
     expect(engineer.name).toBe('Dave');
     expect(engineer.id).toEqual(19);
     expect(engineer.email).toBe('dave@fakemail.com');
-    expect(engineer.github).toBe('beatypete')
-    expect(engineer.role).toBe('engineer')
+    expect(engineer.other).toBe('beatypete')
+    expect(engineer.role).toBe('Engineer')
 });
 
 test('gets engineers github', () => {

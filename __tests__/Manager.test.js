@@ -6,6 +6,6 @@ test('creates an Manager', () => {
     expect(manager.name).toBe('Dave');
     expect(manager.id).toEqual(19);
     expect(manager.email).toBe('dave@fakemail.com');
-    expect(manager.phone).toBe('666-666-6666');
-    expect(manager.role).toBe('manager')
+    expect(manager.other).toBe('666-666-6666');
+    expect(manager.role).toBe('Manager')
 });

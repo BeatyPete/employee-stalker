@@ -7,62 +7,62 @@ const Intern = require("./lib/Intern");
 
 const teamMembers = [];
 
-const managerQuestions = [
-    {
-        type: 'input',
-        name: 'name',
-        message: `What is the team manager's name?`,
-        pvalidate: nameInput => {
-          if (nameInput) {
-            return true;
-          } else {
-            console.log('Please enter a name!');
-            return false;
-          }
-        }
-    },
-    {
-        type: 'input',
-        name: 'id',
-        message: `Enter the manager's employee id.`,
-        pvalidate: idInput => {
-          if (idInput) {
-            return true;
-          } else {
-            console.log('Please enter an id');
-            return false;
-          }
-        }
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: `Enter the manager's email.`,
-        pvalidate: emailInput => {
-          if (emailInput.includes('@')) {
-            return true;
-          } else {
-            console.log('Please enter an email');
-            return false;
-          }
-        }
-    },
-    {
-        type: 'input',
-        name: 'phone',
-        message: `Enter the manager's phone number.`,
-        pvalidate: phoneInput => {
-          if (phoneInput) {
-            return true;
-          } else {
-            console.log('Please enter a phone number');
-            return false;
-          }
-        }
-    },
-];
-
 const promptManager = () => {
+    const managerQuestions = [
+        {
+            type: 'input',
+            name: 'name',
+            message: `What is the team manager's name?`,
+            pvalidate: nameInput => {
+              if (nameInput) {
+                return true;
+              } else {
+                console.log('Please enter a name!');
+                return false;
+              }
+            }
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: `Enter the manager's employee id.`,
+            pvalidate: idInput => {
+              if (idInput) {
+                return true;
+              } else {
+                console.log('Please enter an id');
+                return false;
+              }
+            }
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: `Enter the manager's email.`,
+            pvalidate: emailInput => {
+              if (emailInput.includes('@')) {
+                return true;
+              } else {
+                console.log('Please enter an email');
+                return false;
+              }
+            }
+        },
+        {
+            type: 'input',
+            name: 'other',
+            message: `Enter the manager's phone number.`,
+            pvalidate: phoneInput => {
+              if (phoneInput) {
+                return true;
+              } else {
+                console.log('Please enter a phone number');
+                return false;
+              }
+            }
+        },
+    ];
+
     console.log(`
   ==================
    Employee Stalker
@@ -70,8 +70,7 @@ const promptManager = () => {
   `);
     return inquirer.prompt(managerQuestions)
         .then(managerData => {
-            console.log(managerData)
-            teamMembers.push(new Manager(managerData.name, managerData.id, managerData.email, managerData.phone));
+            teamMembers.push(new Manager(managerData.name, managerData.id, managerData.email, managerData.other));
         });
 };
 const promptAddMember = () => {
@@ -87,13 +86,13 @@ const promptAddMember = () => {
         if (choice.add === 'Engineer') {
             return addMember(choice.add)
             .then(employeeData => {
-                teamMembers.push(new Engineer(employeeData.name, employeeData.id, employeeData.email, employeeData.github))
+                teamMembers.push(new Engineer(employeeData.name, employeeData.id, employeeData.email, employeeData.other))
                 return promptAddMember();
             })
         } else if (choice.add === 'Intern') {
             return addMember(choice.add)
             .then(employeeData => {
-                teamMembers.push(new Intern(employeeData.name, employeeData.id, employeeData.email, employeeData.github))
+                teamMembers.push(new Intern(employeeData.name, employeeData.id, employeeData.email, employeeData.other))
                 return promptAddMember();
             })
         } else {
@@ -148,7 +147,7 @@ const addMember = prompt => {
         employeeQuestions.push(
             {
                 type: 'input',
-                name: 'github',
+                name: 'other',
                 message: `What is the Engineer's github?`,
                 avalidate: githubInput => {
                   if (githubInput) {
@@ -164,7 +163,7 @@ const addMember = prompt => {
         employeeQuestions.push(
             {
                 type: 'input',
-                name: 'school',
+                name: 'other',
                 message: `What is the Intern's school?`,
                 avalidate: schoolInput => {
                   if (schoolInput) {
@@ -180,9 +179,28 @@ const addMember = prompt => {
     return inquirer.prompt(employeeQuestions)
 }
 
+const writeFile = fileContent => {
+    return new Promise((resolve, reject) => {
+      fs.writeFile('./dist/index.html', fileContent, err => {
+        // if there's an error, reject the Promise and send the error to the Promise's `.catch()` method
+        if (err) {
+          reject(err);
+          // return out of the function here to make sure the Promise doesn't accidentally execute the resolve() function as well
+          return;
+        }
+  
+        // if everything went well, resolve the Promise and send the successful data to the `.then()` method
+        resolve({
+          ok: true,
+          message: 'File created!'
+        });
+      });
+    });
+};
+
 promptManager()
     .then(promptAddMember)
-    .then( () => {
-        console.log('finnished!!!');
-        console.log(teamMembers)
+    .then( () => generateIndex(teamMembers))
+    .then( data => {
+      writeFile(data)
     })
