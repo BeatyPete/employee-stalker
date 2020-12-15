@@ -13,7 +13,7 @@ const promptManager = () => {
             type: 'input',
             name: 'name',
             message: `What is the team manager's name?`,
-            pvalidate: nameInput => {
+            validate: nameInput => {
               if (nameInput) {
                 return true;
               } else {
@@ -26,7 +26,7 @@ const promptManager = () => {
             type: 'input',
             name: 'id',
             message: `Enter the manager's employee id.`,
-            pvalidate: idInput => {
+            validate: idInput => {
               if (idInput) {
                 return true;
               } else {
@@ -39,7 +39,7 @@ const promptManager = () => {
             type: 'input',
             name: 'email',
             message: `Enter the manager's email.`,
-            pvalidate: emailInput => {
+            validate: emailInput => {
               if (emailInput.includes('@')) {
                 return true;
               } else {
@@ -52,7 +52,7 @@ const promptManager = () => {
             type: 'input',
             name: 'other',
             message: `Enter the manager's phone number.`,
-            pvalidate: phoneInput => {
+            validate: phoneInput => {
               if (phoneInput) {
                 return true;
               } else {
@@ -106,7 +106,7 @@ const addMember = prompt => {
             type: 'input',
             name: 'name',
             message: `What is the ${prompt}'s name?`,
-            avalidate: nameInput => {
+            validate: nameInput => {
               if (nameInput) {
                 return true;
               } else {
@@ -119,7 +119,7 @@ const addMember = prompt => {
             type: 'input',
             name: 'id',
             message: `Enter the ${prompt}'s id.`,
-            avalidate: idInput => {
+            validate: idInput => {
               if (idInput) {
                 return true;
               } else {
@@ -132,7 +132,7 @@ const addMember = prompt => {
             type: 'input',
             name: 'email',
             message: `Enter the ${prompt}'s email.`,
-            avalidate: emailInput => {
+            validate: emailInput => {
               if (emailInput.includes('@')) {
                 return true;
               } else {
@@ -149,7 +149,7 @@ const addMember = prompt => {
                 type: 'input',
                 name: 'other',
                 message: `What is the Engineer's github?`,
-                avalidate: githubInput => {
+                validate: githubInput => {
                   if (githubInput) {
                     return true;
                   } else {
@@ -165,7 +165,7 @@ const addMember = prompt => {
                 type: 'input',
                 name: 'other',
                 message: `What is the Intern's school?`,
-                avalidate: schoolInput => {
+                validate: schoolInput => {
                   if (schoolInput) {
                     return true;
                   } else {
